@@ -40,12 +40,30 @@ def run_main():
     st.text('Display dataframe and add sizing.')
     st.dataframe(df, 600, 600)
     # With color.
-    st.text('Display dataframe and add color to maximum values.')
+    st.text('Display dataframe and add color to maximum values in columns.')
     st.dataframe(df.style.highlight_max(axis=0))
+    # st.text('Display dataframe and add color to maximum values in rows.') # Does not work.
+    # st.dataframe(df.style.highlight_max(axis=1))  # Does not work.
 
     # Method 2.
     st.text('Display dataframe as a static table.')
     st.table(df)
+
+    # Method 3.
+    st.text('Display dataframe with "write" function.')
+    st.write(df)
+
+    # Method 4.
+    st.text('Displaying JSON formated data.')
+    st.json({'data': 'name', 'age': 45, 'year_of_birdth': 1965})
+
+    # Render code.
+    st.text('Rendering code.')
+    mycode = """
+    def sayhello():
+        print('Hello world")
+    """
+    st.code(mycode, language='python')
 
     return
 
