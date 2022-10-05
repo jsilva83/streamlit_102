@@ -1,4 +1,5 @@
 import streamlit as st
+from datetime import date
 
 
 def run_main():
@@ -37,6 +38,23 @@ def run_main():
                 I rolled actual dice for these, so they're *guaranteed* to
                 be random.
             """)
+
+    # Select / Muliple select.
+    my_lang = ['', 'Python', 'c', 'Java', 'Assembly']
+    choice = st.selectbox('Programming language', my_lang)
+    st.write('You selected {}'.format(choice))
+
+    # Multiple select.
+    spoken_lang = ('Portuguese', 'English', 'French', 'Spanish', 'German')
+    my_spoken_lang = st.multiselect('Spoken Languages', spoken_lang)
+    my_other_spoken_lang = st.multiselect('Spoken Languages', spoken_lang, key='alt_lang', default='English')
+
+    # Slider for numbers (integer, float, date.
+    age = st.slider("Age", 1, 100, 50)
+    my_date = st.slider('Date', date(2022, 1, 1), date(2022, 12, 31), date.today())
+
+    # Slider for any other data type.
+    color = st.select_slider("Choose color", options=['yellow', 'red', 'blue', 'black', 'white'])
 
     return
 
