@@ -4,6 +4,7 @@ import pandas as pd
 import docx2txt
 import pdfplumber
 from PyPDF2 import PdfFileReader
+import os
 
 
 # Load images.
@@ -15,7 +16,7 @@ def load_image(a_img_file):
     return a_img
 
 
-# Usage of PyPDF2 to read pdf file (alternative to pdfplumber.
+# Usage of PyPDF2 to read pdf file (alternative to pdfplumber).
 def read_pdf(a_file):
 
     a_pdf = PdfFileReader(a_file)
@@ -30,11 +31,21 @@ def read_pdf(a_file):
     return all_pages_text
 
 
+# Function to save files.
+def save_file(a_file):
+
+    with open(os.path.join('tempdir', a_file.name), 'wb') as b_file:
+
+        b_file.write(a_file.getbuffer())
+
+    return st.success(f'File {a_file.name} saved to directory "tempdir"')
+
+
 def main():
 
     st.title('File Upload Tutorial')
 
-    a_menu = ['Image', 'Dataset', 'DocumentFiles', 'About']
+    a_menu = ['Image', 'Dataset', 'DocumentFiles', 'MultipleFiles', 'About']
     a_choice = st.sidebar.selectbox('Menu', a_menu)
 
     if a_choice == 'Image':
@@ -49,6 +60,13 @@ def main():
             a_image_details = {'filename': a_image.name, 'filetype': a_image.type, 'filesize': a_image.size}
             st.write(a_image_details)  # Outputs the dictionary with the file details.
             st.image(load_image(a_image), width=None)  # Outputs the image.
+
+            # Save file in a directory.
+            with open(os.path.join('tempdir', a_image.name), 'wb') as a_file:
+
+                a_file.write(a_image.getbuffer())
+
+            st.success('File saved.')
 
     elif a_choice == 'Dataset':
 
@@ -113,6 +131,23 @@ def main():
                     a_processed_text = read_pdf(a_doc_file)
                     st.write(a_processed_text)
 
+    elif a_choice == 'MultipleFiles':
+
+        st.subheader('Upload Multipl Files')  # Change sub-header.
+
+        uploaded_images = st.file_uploader('Upload multiple files',
+                                           type=['png', 'jpeg', 'jpg'],
+                                           accept_multiple_files=True)  # get files.
+
+        if uploaded_images is not None:
+
+            for a_uploaded_img in uploaded_images:
+
+                a_image_details = {'filename': a_uploaded_img.name,
+                                   'filetype': a_uploaded_img.type,
+                                   'filesize': a_uploaded_img.size}
+                st.write(a_image_details)  # Outputs the dictionary with the file details.
+                st.image(load_image(a_uploaded_img), width=None)  # Outputs the image.
 
     else:
 
