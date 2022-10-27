@@ -1,9 +1,14 @@
 # Import standard packages.
+# import profiler as profiler
 import streamlit as st
 import pandas as pd
+from memory_profiler import profile
 
 
+@profile
 def main():
+
+    st.help(st.form)
 
     st.title('Calculator and Forms')  # Page title.
     a_choice = st.sidebar.selectbox('Menu', ['Calculator', 'About'])  # Page menu.
@@ -13,26 +18,26 @@ def main():
         st.subheader('Forms tutorial')
 
         # Method 1: Context Manager approach (using with).
-        with st.form(key='form1'):
+        with st.form(key='form1', clear_on_submit=True):
 
             firstname = st.text_input('First Name')
             lastname = st.text_input('Last Name')
             date_of_birth = st.date_input('Date of Birth')
-            submitt_btn = st.form_submit_button(label='SignUp')
+            submit_btn = st.form_submit_button(label='SignUp')
 
-        if submitt_btn:  # This can be done inside or outside of the "with" clause.
+        if submit_btn:  # This can be done inside or outside of the "with" clause.
 
             st.success(f'Hi {firstname} {lastname}, you have created an account.')
 
         # Method 2: using a declared form object.
         form2 = st.form(key='form2')
         username = form2.text_input('Username')
-        jobtype = form2.selectbox('Job', ['Developer', 'Data Scientist', 'Database Administrator'])
-        submitt_btn_2 = form2.form_submit_button(label='Login')
+        job_type = form2.selectbox('Job', ['Developer', 'Data Scientist', 'Database Administrator'])
+        submit_btn_2 = form2.form_submit_button(label='Login')
 
-        if submitt_btn_2:
+        if submit_btn_2:
 
-            st.success(f'{username} successfuly loged in.')
+            st.success(f'{username} successfully logged in.')
 
         # Form in columns: Salary calculator.
         with st.form(key='salary_form'):
