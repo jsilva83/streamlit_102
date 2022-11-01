@@ -8,6 +8,7 @@ def main():
     stc.html('<p style="color:red">Streamlit is Awesome</p>')  # Add html to page.
     st.markdown('<p style="color:blue">Streamlit is Awesome</p>', unsafe_allow_html=True)  # Add as markdown format.
 
+
     return
 
 
